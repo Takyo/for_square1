@@ -44,7 +44,35 @@ class Scraper {
         }
         return $conf;
     }
+    /**
+     * get next and last uri from crawler
+     *
+     * @return array
+     */
+    private function getNextLastUri($crawler, $confNext, $confLast)
+    {
+        $lastUri = null;
+        $nextUri = null;
 
+        $crawlerNext = $crawler->selectLink($confNext);
+        $crawlerLast = $crawler->selectLink($confLast);
+
+        if ($crawlerNext->count()) {
+
+            $nextUri = $crawlerNext->link()->getUri();
+            // $nextUri = $linkNext->getUri();
+
+            if ($crawlerLast->count()) {
+                $lastUri = $crawlerLast->link()->getUri();
+            } else {
+                $lastUri = $nextUri;
+            }
+        } else {
+            $lastUri = $crawler->getUri();
+            $nextUri = null;
+        }
+        return [ 'nextUri' => $nextUri, 'lastUri' => $lastUri];
+    }
 
     /**
      * scrape all categories
@@ -69,36 +97,20 @@ class Scraper {
             $strNum = $crawler->filter($conf['products_number'])->first()->html();
             $prodNum = intval(preg_replace('/[^0-9]+/', '', $strNum), 10);
 
-            $crawlerLast = $crawler->selectLink($conf['click_last']);
-            $crawlerNext = $crawler->selectLink($conf['click_next']);
+            $uris = $this->getNextLastUri($crawler, $conf['click_next'], $conf['click_last']);
 
-            $lastUri = "";
-            if ($crawlerNext->count()) {
-
-                $clickNext = $crawlerNext->link();
-                if ($crawlerLast->count()) {
-                    $lastUri = $crawlerLast->link()->getUri();
-                } else {
-                    $lastUri = $clickNext->getUri();
-                }
-            } else {
-                $lastUri = $crawler->getUri();
-            }
-
-
-            $secondRound = true;
+            $secondloop = true;
+            $countProducts = 0;
 
             do {
-
                 // click only in the second loop
-                if (!$secondRound) {
-                    $crawler = $client->click($clickNext);
-                    $crawlerNext = $crawler->selectLink($config['click_next']);
-                    if ($crawlerNext->count()) {
-                        $clickNext = $crawlerNext->link();
+                if (!$secondloop) {
+                    if (!is_null($uris['nextUri'])) {
+                        $crawler = $this->client->request('GET', $uris['nextUri']);
+                        $uris = $this->getNextLastUri($crawler, $conf['click_next'], $conf['click_last']);
                     }
                 }
-                $secondRound = false;
+                $secondloop = false;
 
                 $pageProducts = $crawler->filter($conf['item'])->each(function($node) use($conf, $category) {
 
@@ -152,11 +164,14 @@ class Scraper {
                 });
 
                 $this->products = array_merge($this->products, $pageProducts);
+                $countProducts += count($pageProducts);
 
-             } while($crawler->getUri() !== $lastUri) ;
+            } while(!is_null($uris['nextUri'])) ;
 
-            return $this->products;
+            // dump("$countProducts items founds in scraped $category");
         }
+
+        return $this->products;
     }
 
     /**

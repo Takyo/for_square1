@@ -1,6 +1,6 @@
 # Installation
 
-## requeriments
+## Requeriments
 - mysql >= 5.7
 - PHP >= 7.2.0
 - BCMath PHP Extension
@@ -24,8 +24,10 @@ php artisan migrate
 # Usage
 
 Use `/config/scrap.php` file to config categories filter to find items for each category.
+remeber that for each change use `php artisan config:cache`
 
 For scraping use `php artisan scrap` and check database and `public/img` directory.
+> In my machine has taken 00:11:17
 
 ## Task Scheduling
 you only need to add the following Cron entry to your server.
@@ -43,7 +45,7 @@ This Cron will call the Laravel command scheduler every minute.
 - [x] first scraping version.
 - [X] Add command scrape.
 - [X] Add scrape cron every day.
-- [ ] Only scraping new items.
+- [ ] Only scraping new items. (I have not found any 'product_id' in page)
 - [ ] Add command scrape:fresh.
 - [ ] Add command scrape:refresh.
 - [ ] create controller whislisht.

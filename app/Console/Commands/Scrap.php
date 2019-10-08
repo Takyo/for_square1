@@ -43,18 +43,20 @@ class Scrap extends Command
     {
         $tiempo_inicial = microtime(true);
 
-        $scraped = new sq\Scraper(['dishwashers']);
+        $scraped = new sq\Scraper(['small_appliances','dishwashers']);
 
         $scrap = $scraped->scraped();
 
         $request = new \Illuminate\Http\Request($scrap);
-
+        dump(count($scrap) .' items found in the scrap');
         // dump($scrap[0]);
 
-        app('\App\Http\Controllers\ProductController')->store($request);
-
+        $status = app('\App\Http\Controllers\ProductController')->store($request);
+        if ($status) {
+            dump('Saved to database');
+        }
         $tiempo_final = microtime(true);
-        $tiempo = $tiempo_final - $tiempo_inicial;
-        echo "Tiempo de ejecución: $tiempo segundos\n";
+        $tiempo = gmdate('H:i:s',$tiempo_final - $tiempo_inicial);
+        dump("Tiempo de ejecución: $tiempo");
     }
 }

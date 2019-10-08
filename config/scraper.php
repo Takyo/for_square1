@@ -45,7 +45,8 @@ return [
 
         'dishwashers' => [
 
-            'url' => 'https://www.appliancesdelivered.ie/dishwashers?sort=price_asc&page=2',
+            // its necesary add page=1 to url
+            'url' => 'https://www.appliancesdelivered.ie/dishwashers?sort=price_asc&page=1',
 
             /**
              * images downloads
@@ -59,8 +60,13 @@ return [
 
         'small_appliances' => [
 
-            'url' => 'https://www.appliancesdelivered.ie/search/small-appliances?sort=price_desc',
+            // its necesary add page=1 to url
+            'url' => 'https://www.appliancesdelivered.ie/search/small-appliances?sort=price_desc&page=1',
 
+            /**
+             * images downloads
+             */
+            'img_path' => 'img/small_appliances/',
         ],
     ],
 
