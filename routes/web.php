@@ -19,7 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('smallAppliancesScrape', 'ScrapingController@smallAppliances');
+// Route::get('smallAppliancesScrape', 'ScrapingController@smallAppliances');
 
-Route::get('dishwashersScrape', 'ScrapingController@dishwashers');
+// Route::get('dishwashersScrape', 'ScrapingController@dishwashers');
+
+
+
 
