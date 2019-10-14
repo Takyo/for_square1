@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Product;
+use Illuminate\Http\Request;
+use Symfony\Component\DomCrawler\Form;
+
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of products.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $sort = ($request->sort === 'desc') ? 'desc': 'asc';
+        $products = Product::orderBy('price', $sort)->paginate(5);
+
+        return view('products.index', compact('products', 'sort'));
     }
 
     /**
@@ -24,11 +35,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage from scraping.
      * TODO:
      *      insertar masivamente productos
      *      se muestre bien la relacion muchos a muchos
@@ -36,7 +47,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function storeFromScraping(Request $request)
     {
         $category = new \App\Category();
         $property = new \App\Property();
@@ -61,8 +72,8 @@ class ProductController extends Controller
             $product = new Product();
             $product->fill($data);
             $product->save();
-            $product->properties()->sync($properties_id);
-            $product->images()->sync($images_id);
+            $product->properties()->attach($properties_id);
+            $product->images()->attach($images_id);
         }
 
         return true;

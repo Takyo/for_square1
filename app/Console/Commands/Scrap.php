@@ -51,7 +51,7 @@ class Scrap extends Command
         dump(count($scrap) .' items found in the scrap');
         // dump($scrap[0]);
 
-        $status = app('\App\Http\Controllers\ProductController')->store($request);
+        $status = app('\App\Http\Controllers\ProductController')->storeFromScraping($request);
         if ($status) {
             dump('Saved to database');
         }

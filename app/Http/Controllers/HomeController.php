@@ -25,6 +25,6 @@ class HomeController extends Controller
     {
         $users = \App\User::get();
         // dd($users);
-        return view('home', ['users' => $users]);
+        return view('/', ['users' => $users]);
     }
 }

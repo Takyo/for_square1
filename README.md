@@ -46,8 +46,10 @@ This Cron will call the Laravel command scheduler every minute.
 - [x] first scraping version.
 - [X] Add command scrape.
 - [X] Add scrape cron every day.
-- [ ] Only scraping new items. (I have not found any 'product_id' in page)
+- [ ] Only scraping new items. (I not found any 'product_id' in page)
 - [ ] Add command scrape:fresh.
 - [ ] Add command scrape:refresh.
-- [ ] create controller whislisht.
-- [ ] Add UI with Blade.
+- [X] create controller whishlist.
+- [x] CRUD wishlist
+- [X] Select/deselect products from the wishlist if you are logged
+- [X] Add UI with Blade.

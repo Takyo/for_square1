@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        DB::table('users')->insert([
+            'name' => 'lazaro',
+            'email' => 'lazaro@email.com',
+            'password' => bcrypt('1234'),
+        ]);
         // factory(App\Product::class, 10)->create();
         // factory(App\User::class)->create(['name' => 'Lázaro' , 'email' => 'lazaro@email.com']);
         // $this->call(UsersTableSeeder::class);

@@ -16,6 +16,10 @@ class Image extends Model
         'name',
     ];
 
+    /**
+     * many to many
+     * get all products
+     */
     public function products()
     {
         return $this->belongsToMany('App\Product')->withPivot('filepath');

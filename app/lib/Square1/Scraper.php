@@ -139,7 +139,8 @@ class Scraper {
                             $filename = basename($img);
                             $imgPath = public_path("{$conf['img_path']}/$filename");
                             Image::make($img)->save($imgPath);
-                            $ret['imgs'][$key] = $imgPath;
+                            // $ret['imgs'][$key] = $imgPath;
+                            $ret['imgs'][$key] ="{$conf['img_path']}/$filename";
                         } else {
                             // $ret['imgs'][$key] = null;
                         }
@@ -154,10 +155,10 @@ class Scraper {
                         }
                     }, $conf['others']);
 
+                    $ret2['price'] = str_replace(',', '', mb_substr($ret2['price'], 1, null, 'utf8'));
                     $ret2['coin'] = mb_substr($ret2['price'], 0, 1, 'utf8');
-                    $ret2['price'] = mb_substr($ret2['price'], 1, null, 'utf8');
                     if (array_key_exists("rrp", $ret2) && !is_null($ret2['rrp'])) {
-                        $ret2['rrp'] = mb_substr($ret2['rrp'], 1, null, 'utf8');
+                        $ret2['rrp'] = str_replace(',', '', mb_substr($ret2['rrp'], 1, null, 'utf8'));
                     }
                     return  array_merge($ret, $ret2);
 

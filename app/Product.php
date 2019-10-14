@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+
 class Product extends Model
 {
     protected $table = 'products';
@@ -21,24 +23,46 @@ class Product extends Model
         'rrp',
     ];
 
+    /*
+    public function test()
+    {
+        $rel = $this->belongsTo('App\Category');
+        $var = "hola";
+        // dd($rel->find(1)->get());
+        return $this->belongsToMany('App\Image')->withPivot('filepath');
+    }
+    */
+
+    /**
+     * one product has one category
+     */
     public function category()
     {
         return $this->belongsTo('App\Category');
-        // return $this->belongsTo(Category::class);
     }
 
+    /**
+     * many to many
+     * get all wishlists
+     */
     public function wishlists()
     {
         return $this->belongsToMany('App\Wishlist');
-        // return $this->belongsToMany('Wishlist::class');
     }
 
+    /**
+     * many to many
+     * get all images
+     */
     public function images()
     {
         return $this->belongsToMany('App\Image')->withPivot('filepath');
-        // return $this->belongsToMany('Images::class');
     }
 
+    /**
+     * many to many
+     * get all properties
+     */
     public function properties()
     {
         return $this->belongsToMany('App\Property', 'product_property', 'product_id', 'property_id')->withPivot('content');

@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 public/img/small_appliances
 public/img/dishwashers
+ruta.txt
+app/Http/Controllers/testController.php

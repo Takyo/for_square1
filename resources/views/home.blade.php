@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.main_layout')
 
 @section('content')
 <div class="container">
@@ -16,9 +16,9 @@
 
                     You are logged in!
 
-                    @foreach ($users as $user)
+                    {{-- @foreach ($users as $user)
                         {{ $user->name }}
-                    @endforeach
+                    @endforeach --}}
                 </div>
             </div>
         </div>

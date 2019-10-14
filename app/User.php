@@ -37,6 +37,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * one user has many wishlists
+     */
     public function wishlists()
     {
         return $this->hasMany(Wishlist::class);

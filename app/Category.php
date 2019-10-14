@@ -15,6 +15,9 @@ class Category extends Model
         'name'
     ];
 
+    /**
+     * one Category has many products
+     */
     public function products()
     {
         return $this->hasMany('App\Product');

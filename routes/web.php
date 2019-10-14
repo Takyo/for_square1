@@ -10,19 +10,33 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+/**
+ * authentication
+ */
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/**
+ * products
+ */
+// Route::resource('/products', 'ProductController');
+Route::redirect('/home', '/products');
+Route::get('/products', 'ProductController@index');
+Route::get('/', 'ProductController@index');
 
-// Route::get('smallAppliancesScrape', 'ScrapingController@smallAppliances');
+/**
+ * wishlist
+ */
+Route::get('{user_id}/wishlist' , 'WishlistController@index')->name('user.wishlist');
+Route::get('/wishlist/show/{wishlist_id}' , 'WishlistController@show')->name('wishlist.show');
 
-// Route::get('dishwashersScrape', 'ScrapingController@dishwashers');
+Route::get('wishlist/new' , 'WishlistController@create')->name('wishlist.create');
+Route::post('wishlist/store' , 'WishlistController@store')->name('wishlist.store');
+Route::post('wishlist/ajax/store' , 'WishlistController@storeAjax')->name('wishlist.ajax.store');
 
+Route::get('wishlist/edit/{wishlist_id}' , 'WishlistController@edit')->name('wishlist.edit');
+Route::put('wishlist/update/{wishlist_id}' , 'WishlistController@update')->name('wishlist.update');
+Route::put('wishlist/update/ajax/{wishlist_id}' , 'WishlistController@updateAjax')->name('wishlist.ajax.update');
 
+Route::delete('wishlist/del/{wishlist_id}' , 'WishlistController@destroy')->name('wishlist.delete');
 
-
+route::put('wishlist/{wishlist_id}/product/{product_id}/detach', 'WishlistController@detachProduct')->name('wishlist.ajax.product.detach');
